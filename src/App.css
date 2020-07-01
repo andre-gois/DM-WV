@@ -33,7 +33,8 @@
 
 .logo {
   z-index: 3;
-  width: 50px;
+  opacity: .5;
+  width: 40px;
   left: 20px;
   top: 5px;
   position: fixed;
@@ -45,5 +46,12 @@ footer {
   bottom: 20px;
   right: 20px;
   color: lightgray;
-  font-size: 12px;
+  font-size: 10px;
+  opacity: .5;
+}
+
+.play {
+  background-color: #000;
+  width: 30px;
+  border-radius: 15px;
 }

@@ -13,7 +13,7 @@ function App() {
   //See annotations in JS for more information
   const setup = (p5: p5Types | any, canvasParentRef: Element) => {
     p5.createCanvas(p5.windowWidth -20, p5.windowHeight -20).parent(canvasParentRef);
-    p5.stroke(255);
+    p5.stroke(180);
   };
 
   const draw = (p5: p5Types | any) => {
@@ -22,7 +22,7 @@ function App() {
       for (let i = 0; i < spectrum.length; i++) {
         p5.point(
           p5.map(i, 0, spectrum.length, 0, p5.windowWidth - 20),
-          p5.map(spectrum[i], -1, 1, p5.windowHeight -20 / 2, 0)
+          p5.map(spectrum[i], -1, 1, p5.windowHeight -20 / 2 -12, 0)
         );
       }
   };
@@ -36,12 +36,13 @@ function App() {
   return (
     <div className="App">
 
-      <img src="/logo512.png" className="logo" onClick={onPress} alt="wv"/>
+      <img src="/logo512.png" className="logo" alt="wv"/>
 
       <div className="interface-container">
         <div className="">
-          <p>hello</p>
-          <button className="btn" onClick={onPress}>play</button>
+          {/* <p>hello</p> */}
+          <img src="/play_sm.png" onClick={onPress} className="play" alt="play"/>
+          {/* <button className="btn" onClick={onPress}>play</button> */}
         </div>
       </div>
 
