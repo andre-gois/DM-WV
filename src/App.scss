@@ -76,11 +76,20 @@ footer {
 .controls {
   display: flex;
   flex-direction: column;
-}
-.controls .params {
-  display: flex;
-  flex-direction: row;
-}
-.controls .params .slider{
-  padding: 10px;
+
+  .params {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #666;
+    padding-bottom: 10px;
+    .slider{
+      padding: 10px;
+    }
+  }
+
+  .global-action {
+    margin-top: 20px;
+    width: 100%;
+    
+  }
 }

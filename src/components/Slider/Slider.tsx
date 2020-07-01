@@ -1,6 +1,6 @@
 
 import React from "react";
-import './Slider.css';
+import './Slider.scss';
 
 interface SliderComponentProps {
     name: string;
@@ -13,9 +13,9 @@ interface SliderComponentProps {
 const Slider = ({name, min, max, step, value}: SliderComponentProps) => {
 
     return (
-        <div className="slider">
-            <div className="range-slider">
-                <input className="range" type="range" value={value} step={step} min={min} max={max} />
+        <div className="slider-container">
+            <div className="input-container">
+                <input className="range" type="range"  step={step} min={min} max={max} />
             </div>  
             <div className="name">
                 {name}
