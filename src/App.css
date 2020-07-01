@@ -1,3 +1,9 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
   height: 100%;
@@ -54,4 +60,27 @@ footer {
   background-color: #000;
   width: 30px;
   border-radius: 15px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.sequencer, .controls {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+}
+.controls .params {
+  display: flex;
+  flex-direction: row;
+}
+.controls .params .slider{
+  padding: 10px;
 }
