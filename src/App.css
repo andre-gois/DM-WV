@@ -2,8 +2,8 @@
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
+.sketch-container {
+  background-color: #000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -13,4 +13,19 @@
   color: white;
   margin: 0;
   padding: 0;
+}
+
+.logo {
+  width: 50px;
+  left: 20px;
+  top: 5px;
+  position: fixed;
+}
+
+footer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: lightgray;
+  font-size: 12px;
 }
