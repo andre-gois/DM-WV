@@ -6,19 +6,20 @@ import { Waveform, MembraneSynth } from "tone";
 import Slider from './components/Slider/Slider';
 import Dice from './components/Dice/Dice';
 
+console.log('STARTUP');
+
 const ATTACK = 0.001;
 const DECAY = 0.4;
-const SUSTAIN = 0.1;
+const SUSTAIN = 0.01;
 const RELEASE = 1.4;
-const PITCH_DECAY = 0.01;
-let DURATION = 4;
+const PITCH_DECAY = 0.05;
 
 const soundParamsInit = [
   { id: 'attack', min: 0.001, max: 1.0, step: 0.001, name: 'A', value: ATTACK },
-  { id: 'decay', min: 0.1, max: 1.0, step: 0.1, name: 'D', value: DECAY },
-  { id: 'sustain', min: 0.0, max: 1.0, step: 0.1, name: 'S', value: SUSTAIN },
-  { id: 'release', min: 0, max: 4, step: 0.1, name: 'R', value: RELEASE },
-  { id: 'pitch_decay', min: 0.01, max: 0.09, step: 0.01, name: '\\', value: PITCH_DECAY },
+  { id: 'decay', min: 0.01, max: 2.0, step: 0.01, name: 'D', value: DECAY },
+  // { id: 'sustain', min: 0.0, max: 0.6, step: 0.1, name: 'S', value: SUSTAIN },
+  { id: 'release', min: 0.1, max: 4, step: 0.1, name: 'R', value: RELEASE },
+  { id: 'pitch_decay', min: 0.0, max: 0.5, step: 0.01, name: '\\', value: PITCH_DECAY },
   // { id: 'duration', min: 1, max: 16, step: 1, name: '>', value: DURATION }
 ];
 
@@ -33,6 +34,7 @@ const membraneOptions = {
     decay: DECAY,
     sustain: SUSTAIN,
     release: RELEASE,
+    decayCurve: 'exponential',
     attackCurve: 'exponential'
   }
 }
@@ -49,9 +51,9 @@ const convertSoundParamsToSynthOptions = (param, val) => {
     case 'decay':
       synth.envelope.decay = val;
       break;
-    case 'sustain':
-      synth.envelope.sustain = val;
-      break;
+    // case 'sustain':
+    //   synth.envelope.sustain = val;
+    //   break;
     case 'release':
       synth.envelope.release = val;
       break;
@@ -67,12 +69,14 @@ function App() {
 
   //See annotations in JS for more information
   const setup = (p5: p5Types | any, canvasParentRef: Element) => {
+    console.log('setup:')
     p5.createCanvas(p5.windowWidth -20, p5.windowHeight -20).parent(canvasParentRef);
     p5.stroke(100);
+    p5.frameRate(50);
   };
 
   const draw = (p5: p5Types | any) => {
-    p5.background(10);
+    p5.background(10, 10, 10, 180);
     let spectrum = analyser.getValue();
     p5.noFill();
     p5.beginShape();
@@ -86,11 +90,13 @@ function App() {
   };
 
   const onPress = () => {
+    console.log('onPress:');
     const octave = Math.round(Math.random() * 3 + 1);
-    synth.triggerAttackRelease(`A${octave}`, `${DURATION}n`);
+    synth.triggerAttackRelease(`A${octave}`, `4n`);
   }
 
   const changeSoundParam = (index, val) => {
+    console.log('changeSoundParam:', index, val)
     setSoundParams(prev => {
       prev[index].value = val;
       convertSoundParamsToSynthOptions(prev[index], val);
@@ -99,6 +105,7 @@ function App() {
   }
 
   const radomizeAllSoundParams = () => {
+    console.log('radomizeAllSoundParams:');
     soundParams.forEach((param, i) => {
       const val = Math.random() * (param.max - param.min) + param.min;
       changeSoundParam(i, val);

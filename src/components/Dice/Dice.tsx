@@ -20,6 +20,7 @@ const Dice = ({ onPress }: DiceComponentProps) => {
     const [currentNum, setCurrentNum] = useState(rollDice());
 
     const changeFace = () => {
+        console.log('changeFace:');
         setCurrentNum(prev => rollDice(prev));
         onPress();
     }
