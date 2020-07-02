@@ -11,15 +11,15 @@ const DECAY = 0.4;
 const SUSTAIN = 0.1;
 const RELEASE = 1.4;
 const PITCH_DECAY = 0.01;
-const DURATION = 4;
+let DURATION = 4;
 
 const soundParamsInit = [
   { id: 'attack', min: 0.001, max: 1.0, step: 0.001, name: 'A', value: ATTACK },
   { id: 'decay', min: 0.1, max: 1.0, step: 0.1, name: 'D', value: DECAY },
   { id: 'sustain', min: 0.0, max: 1.0, step: 0.1, name: 'S', value: SUSTAIN },
   { id: 'release', min: 0, max: 4, step: 0.1, name: 'R', value: RELEASE },
-  { id: 'pitch_decay', min: 0.01, max: 1.0, step: 0.01, name: '\\', value: PITCH_DECAY },
-  { id: 'duration', min: 1, max: 16, step: 1, name: '>', value: DURATION }
+  { id: 'pitch_decay', min: 0.01, max: 0.09, step: 0.01, name: '\\', value: PITCH_DECAY },
+  // { id: 'duration', min: 1, max: 16, step: 1, name: '>', value: DURATION }
 ];
 
 const membraneOptions = {
@@ -41,7 +41,25 @@ const synth = new MembraneSynth(membraneOptions).toMaster();
 const analyser = new Waveform(512);
 synth.chain(analyser);
 
-
+const convertSoundParamsToSynthOptions = (param, val) => {
+  switch (param.id) {
+    case 'attack':
+      synth.envelope.attack = val;
+      break;
+    case 'decay':
+      synth.envelope.decay = val;
+      break;
+    case 'sustain':
+      synth.envelope.sustain = val;
+      break;
+    case 'release':
+      synth.envelope.release = val;
+      break;
+    case 'pitch_decay':
+      synth.pitchDecay = val;
+      break;
+  }
+};
 
 function App() {
 
@@ -75,6 +93,7 @@ function App() {
   const changeSoundParam = (index, val) => {
     setSoundParams(prev => {
       prev[index].value = val;
+      convertSoundParamsToSynthOptions(prev[index], val);
       return [...prev]
     });
   }
@@ -84,6 +103,7 @@ function App() {
       const val = Math.random() * (param.max - param.min) + param.min;
       changeSoundParam(i, val);
     });
+    
   }
 
   return (
