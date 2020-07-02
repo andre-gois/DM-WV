@@ -21,14 +21,17 @@
     border: 1px solid #444;
     width: 25px;
     height: 25px;
+    background-position: center;
+    background-size: cover;
+    opacity: .9;
 }
 
-.cube__face--1  { transform: rotateY(  0deg) translateZ(12px); }
-.cube__face--2  { transform: rotateY( 90deg) translateZ(12px); }
-.cube__face--3   { transform: rotateY(180deg) translateZ(12px); }
-.cube__face--4   { transform: rotateY(-90deg) translateZ(12px); }
-.cube__face--5    { transform: rotateX( 90deg) translateZ(12px); }
-.cube__face--6 { transform: rotateX(-90deg) translateZ(12px); }
+.cube__face--1  { transform: rotateY(  0deg) translateZ(12px); background-image: url('/images/dice-1.png'); }
+.cube__face--2  { transform: rotateY( 90deg) translateZ(12px); background-image: url('/images/dice-2.png');}
+.cube__face--3   { transform: rotateY(180deg) translateZ(12px); background-image: url('/images/dice-3.png');}
+.cube__face--4   { transform: rotateY(-90deg) translateZ(12px); background-image: url('/images/dice-4.png');}
+.cube__face--5    { transform: rotateX( 90deg) translateZ(12px); background-image: url('/images/dice-5.png');}
+.cube__face--6 { transform: rotateX(-90deg) translateZ(12px); background-image: url('/images/dice-6.png');}
 
 .cube { transform: translateZ(-10px); }
 

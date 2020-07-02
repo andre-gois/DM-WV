@@ -82,7 +82,7 @@ function App() {
             ))}
           </div>
           <div className="global-action">
-            <Dice />
+            <Dice onPress={() => null}/>
           </div>
 
         </div>

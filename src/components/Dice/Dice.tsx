@@ -21,17 +21,17 @@ const Dice = ({ onPress }: DiceComponentProps) => {
 
     const changeFace = () => {
         setCurrentNum(rollDice());
+        onPress();
     }
 
     return (
         <div className="scene" onClick={changeFace}>
             <div className={`cube show-${currentNum}`}>
-                <div className="cube__face cube__face--1">f</div>
-                <div className="cube__face cube__face--2">b</div>
-                <div className="cube__face cube__face--3">r</div>
-                <div className="cube__face cube__face--4">l</div>
-                <div className="cube__face cube__face--5">t</div>
-                <div className="cube__face cube__face--6">b</div>
+                {[1,2,3,4,5,6].map(v => (
+                    <div key={v} className={`cube__face cube__face--${v}`}>
+                        
+                    </div>
+                ))}
             </div>
         </div>
     )
