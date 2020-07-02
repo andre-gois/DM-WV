@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 import Sketch from 'react-p5';
 import p5Types from 'p5';
-import { Waveform, MembraneSynth } from "tone";
+import { Waveform, MembraneSynth, Freeverb } from "tone";
 import Slider from './components/Slider/Slider';
 import Dice from './components/Dice/Dice';
 
@@ -13,14 +13,16 @@ const DECAY = 0.4;
 const SUSTAIN = 0.01;
 const RELEASE = 1.4;
 const PITCH_DECAY = 0.05;
+const REVERB_DAMPENING = 40;
+const REVERB_WET = 0.3;
 
 const soundParamsInit = [
   { id: 'attack', min: 0.001, max: 1.0, step: 0.001, name: 'A', value: ATTACK },
   { id: 'decay', min: 0.01, max: 2.0, step: 0.01, name: 'D', value: DECAY },
-  // { id: 'sustain', min: 0.0, max: 0.6, step: 0.1, name: 'S', value: SUSTAIN },
   { id: 'release', min: 0.1, max: 4, step: 0.1, name: 'R', value: RELEASE },
   { id: 'pitch_decay', min: 0.0, max: 0.5, step: 0.01, name: '\\', value: PITCH_DECAY },
-  // { id: 'duration', min: 1, max: 16, step: 1, name: '>', value: DURATION }
+  { id: 'reverb_dampening', min: 20, max: 150, step: 10, name: 'V', value: REVERB_DAMPENING },
+  { id: 'reverb_wet', min: 0, max: 1, step: 0.1, name: 'W', value: REVERB_WET },
 ];
 
 const membraneOptions = {
@@ -40,7 +42,15 @@ const membraneOptions = {
 }
 
 const synth = new MembraneSynth(membraneOptions).toMaster();
+synth.volume.value = -4;
 const analyser = new Waveform(512);
+
+const freeverb = new Freeverb().toMaster();
+freeverb.dampening.value = REVERB_DAMPENING;
+freeverb.roomSize.value = 0.9;
+freeverb.wet.value = REVERB_WET;
+
+synth.connect(freeverb);
 synth.chain(analyser);
 
 const convertSoundParamsToSynthOptions = (param, val) => {
@@ -51,11 +61,14 @@ const convertSoundParamsToSynthOptions = (param, val) => {
     case 'decay':
       synth.envelope.decay = val;
       break;
-    // case 'sustain':
-    //   synth.envelope.sustain = val;
-    //   break;
     case 'release':
       synth.envelope.release = val;
+      break;
+    case 'reverb_dampening':
+      freeverb.dampening.value = val;
+      break;
+    case 'reverb_wet':
+      freeverb.wet.value = val;
       break;
     case 'pitch_decay':
       synth.pitchDecay = val;
