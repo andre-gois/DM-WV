@@ -5,9 +5,11 @@ import p5Types from 'p5';
 import { Waveform, MembraneSynth, Freeverb } from "tone";
 import Slider from './components/Slider/Slider';
 import Dice from './components/Dice/Dice';
+import Sequencer from './components/Sequencer/Sequencer';
 
 console.log('STARTUP');
 
+const TEMPO = 120;
 const ATTACK = 0.001;
 const DECAY = 0.4;
 const SUSTAIN = 0.01;
@@ -17,6 +19,7 @@ const REVERB_DAMPENING = 40;
 const REVERB_WET = 0.3;
 
 const soundParamsInit = [
+  { id: 'tempo', min: 20, max: 220, step: 1, name: 'T', value: TEMPO },
   { id: 'attack', min: 0.001, max: 1.0, step: 0.001, name: 'A', value: ATTACK },
   { id: 'decay', min: 0.01, max: 2.0, step: 0.01, name: 'D', value: DECAY },
   { id: 'release', min: 0.1, max: 4, step: 0.1, name: 'R', value: RELEASE },
@@ -42,7 +45,6 @@ const membraneOptions = {
 }
 
 const synth = new MembraneSynth(membraneOptions).toMaster();
-synth.volume.value = -4;
 const analyser = new Waveform(512);
 
 const freeverb = new Freeverb().toMaster();
@@ -52,6 +54,8 @@ freeverb.wet.value = REVERB_WET;
 
 synth.connect(freeverb);
 synth.chain(analyser);
+synth.volume.value = -10;
+
 
 const convertSoundParamsToSynthOptions = (param, val) => {
   switch (param.id) {
@@ -133,7 +137,7 @@ function App() {
 
       <div className="interface-container">
         <div className="sequencer">
-          sequencer
+          <Sequencer />
         </div>
         <div className="center-area">
           <img src="/play_sm.png" onClick={onPress} className="play" alt="play"/>
