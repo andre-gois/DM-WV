@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import Sketch from 'react-p5';
 import p5Types from 'p5';
@@ -6,18 +6,33 @@ import { Waveform, MembraneSynth } from "tone";
 import Slider from './components/Slider/Slider';
 import Dice from './components/Dice/Dice';
 
-// const synth = new Synth().toMaster();
+const ATTACK = 0.001;
+const DECAY = 0.4;
+const SUSTAIN = 0.1;
+const RELEASE = 1.4;
+const PITCH_DECAY = 0.01;
+const DURATION = 4;
+
+const soundParamsInit = [
+  { id: 'attack', min: 0.001, max: 1.0, step: 0.001, name: 'A', value: ATTACK },
+  { id: 'decay', min: 0.1, max: 1.0, step: 0.1, name: 'D', value: DECAY },
+  { id: 'sustain', min: 0.0, max: 1.0, step: 0.1, name: 'S', value: SUSTAIN },
+  { id: 'release', min: 0, max: 4, step: 0.1, name: 'R', value: RELEASE },
+  { id: 'pitch_decay', min: 0.01, max: 1.0, step: 0.01, name: '\\', value: PITCH_DECAY },
+  { id: 'duration', min: 1, max: 16, step: 1, name: '>', value: DURATION }
+];
+
 const membraneOptions = {
-  pitchDecay: 0.01,
+  pitchDecay: PITCH_DECAY,
   octaves: 10,
   oscillator: {
     type: 'sine'
   },
   envelope: {
-    attack: 0.001,
-    decay: 0.4,
-    sustain: 0.1,
-    release: 1.4,
+    attack: ATTACK,
+    decay: DECAY,
+    sustain: SUSTAIN,
+    release: RELEASE,
     attackCurve: 'exponential'
   }
 }
@@ -26,16 +41,11 @@ const synth = new MembraneSynth(membraneOptions).toMaster();
 const analyser = new Waveform(512);
 synth.chain(analyser);
 
-const soundParams = [
-  {id: 'attack', min: 1, max: 10, step: 1, name: 'A', icon: '', value: 2},
-  {id: 'decay', min: 1, max: 10, step: 1, name: 'D', icon: '', value: 1},
-  {id: 'sustain', min: 1, max: 10, step: 1, name: 'S', icon: '', value: 4},
-  {id: 'release', min: 1, max: 10, step: 1, name: 'R', icon: '', value: 2},
-  {id: 'pitch_decay', min: 1, max: 10, step: 1, name: '\\', icon: '', value: 1},
-  { id: 'duration', min: 1, max: 10, step: 1, name: '>', icon: '', value: 1}
-]
+
 
 function App() {
+
+  const [soundParams, setSoundParams] = useState(soundParamsInit);
 
   //See annotations in JS for more information
   const setup = (p5: p5Types | any, canvasParentRef: Element) => {
@@ -59,8 +69,21 @@ function App() {
 
   const onPress = () => {
     const octave = Math.round(Math.random() * 3 + 1);
-    synth.triggerAttackRelease(`A${octave}`, "4n");
-    // console.log(analyser.getValue());
+    synth.triggerAttackRelease(`A${octave}`, `${DURATION}n`);
+  }
+
+  const changeSoundParam = (index, val) => {
+    setSoundParams(prev => {
+      prev[index].value = val;
+      return [...prev]
+    });
+  }
+
+  const radomizeAllSoundParams = () => {
+    soundParams.forEach((param, i) => {
+      const val = Math.random() * (param.max - param.min) + param.min;
+      changeSoundParam(i, val);
+    });
   }
 
   return (
@@ -77,13 +100,13 @@ function App() {
         </div>
         <div className="controls">
           <div className="params">
-            {soundParams.map(param => (
-              <Slider key={param.id} name={param.name} value={param.value} step={param.step} min={param.min} max={param.max}/>
+            {soundParams.map((param, index) => (
+              <Slider key={param.id} name={param.name} value={param.value} step={param.step} min={param.min} max={param.max} onChange={val => changeSoundParam(index, val)}/>
             ))}
           </div>
           <div className="bottom-global-action">
             <div className="line"></div>
-            <Dice onPress={() => null}/>
+            <Dice onPress={() => radomizeAllSoundParams()}/>
           </div>
 
         </div>

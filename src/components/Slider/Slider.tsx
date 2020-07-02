@@ -8,14 +8,15 @@ interface SliderComponentProps {
     max: number;
     step: number;
     value: number;
+    onChange: any;
 }
 
-const Slider = ({name, min, max, step, value}: SliderComponentProps) => {
+const Slider = ({name, min, max, step, value, onChange}: SliderComponentProps) => {
 
     return (
         <div className="slider-container">
             <div className="input-container">
-                <input className="range" type="range"  step={step} min={min} max={max} />
+                <input className="range" type="range" value={value} step={step} min={min} max={max} onChange={val => onChange(val.target.value)}/>
             </div>  
             <div className="name">
                 {name}
