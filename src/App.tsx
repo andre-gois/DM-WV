@@ -81,7 +81,8 @@ function App() {
               <Slider key={param.id} name={param.name} value={param.value} step={param.step} min={param.min} max={param.max}/>
             ))}
           </div>
-          <div className="global-action">
+          <div className="bottom-global-action">
+            <div className="line"></div>
             <Dice onPress={() => null}/>
           </div>
 

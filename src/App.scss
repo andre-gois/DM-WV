@@ -92,7 +92,19 @@ footer {
 
 
   
-  .global-action {
-    margin-top: 20px;
+  .bottom-global-action {
+    border-top: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    width: 210px;
+    // padding-top: 20px;
+    margin-top: 10px;
+    .line {
+      background-color: #444;
+      width: 1px;
+      height: 20px;
+    }
   }
 }

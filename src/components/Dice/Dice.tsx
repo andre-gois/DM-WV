@@ -6,21 +6,21 @@ interface DiceComponentProps {
     onPress?: any;
 }
 
+const rollDice = (currentNum?) => {
+    const num = Math.floor(Math.random() * 6) + 1;
+    if (num !== currentNum) {
+        return num;
+    } else {
+        return (currentNum + 1) % 6;
+    }
+}
+
 const Dice = ({ onPress }: DiceComponentProps) => {
 
-    const [currentNum, setCurrentNum] = useState(1);
-
-    const rollDice = () => {
-        const num = Math.floor(Math.random() * 6) + 1;
-        if (num !== currentNum) {
-            return num;
-        } else {
-            return (currentNum + 1) % 6;
-        }
-    }
+    const [currentNum, setCurrentNum] = useState(rollDice());
 
     const changeFace = () => {
-        setCurrentNum(rollDice());
+        setCurrentNum(prev => rollDice(prev));
         onPress();
     }
 
