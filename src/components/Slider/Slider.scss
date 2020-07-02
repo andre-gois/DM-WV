@@ -12,12 +12,12 @@
 }
 
 .slider-container {
-    width: 50px;
+    width: 40px;
 }
 
 input[type=range]{
     -webkit-appearance: none;
-    transform: rotate(90deg) translate(0px,42px);
+    transform: rotate(90deg) translate(0px,47px);
     background-color: transparent;
 }
 
@@ -29,9 +29,9 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: none;
-    height: 15px;
+    height: 10px;
     width: 1px;
-    background: white;
+    background: #999;
     margin-top: 0px;
 }
 

@@ -4,6 +4,7 @@ import Sketch from 'react-p5';
 import p5Types from 'p5';
 import { Waveform, MembraneSynth } from "tone";
 import Slider from './components/Slider/Slider';
+import Dice from './components/Dice/Dice';
 
 // const synth = new Synth().toMaster();
 const membraneOptions = {
@@ -30,8 +31,8 @@ const soundParams = [
   {id: 'decay', min: 1, max: 10, step: 1, name: 'D', icon: '', value: 1},
   {id: 'sustain', min: 1, max: 10, step: 1, name: 'S', icon: '', value: 4},
   {id: 'release', min: 1, max: 10, step: 1, name: 'R', icon: '', value: 2},
-  {id: 'pitch_decay', min: 1, max: 10, step: 1, name: '@', icon: '', value: 1},
-  {id: 'duration', min: 1, max: 10, step: 1, name: '%', icon: '', value: 1}
+  {id: 'pitch_decay', min: 1, max: 10, step: 1, name: '\\', icon: '', value: 1},
+  { id: 'duration', min: 1, max: 10, step: 1, name: '>', icon: '', value: 1}
 ]
 
 function App() {
@@ -81,7 +82,7 @@ function App() {
             ))}
           </div>
           <div className="global-action">
-            <button>random</button>
+            <Dice />
           </div>
 
         </div>
