@@ -64,7 +64,7 @@ footer {
   z-index: 20;
 }
 
-.sequencer, .controls {
+.sequencer-container, .controls {
   width: 100%;
   height: 100%;
   display: flex;
@@ -98,7 +98,7 @@ footer {
     flex-direction: column;
     // justify-content: center;
     align-items: center;
-    width: 253px;
+    width: 215px;
     // padding-top: 20px;
     margin-top: 10px;
     .line {

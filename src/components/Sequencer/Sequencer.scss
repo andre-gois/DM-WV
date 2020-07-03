@@ -1,9 +1,51 @@
 
 .sequencer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column-reverse;
+    width: 90%;
+    max-width: 500px;
 
     .randomize {
-        padding-left: 50px;
+        border-bottom: 1px solid #444;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        .line {
+            background-color: #444;
+            width: 1px;
+            height: 20px;
+        }
+    }
+
+    .track {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 8px;
+        width: 100%;
+        max-width: 500px;
+        justify-content: center;
+        .step {
+            width: 6%;
+            background-color: #444;
+            opacity: .8;
+            margin-right: 2px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .active {
+                background-color: #ddd;
+                width: 40%;
+                height: 40%;
+                border-radius: 50%;
+            }
+        }
+        .step:after {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
     }
 }
