@@ -180,6 +180,10 @@ function App() {
     p5.endShape();
   };
 
+  const windowResized = (p5: p5Types | any) => {
+    p5.resizeCanvas(p5.windowWidth - 20, p5.windowHeight - 20);
+  }
+
   const onPress = () => {
     Transport.start();
     if (loop.state === 'started') {
