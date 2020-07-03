@@ -1,8 +1,20 @@
-
+.seq-tempo {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .range {
+        transform: none !important;
+    }
+    .slider-container {
+        width: 100%
+    }
+}
 .sequencer {
     display: flex;
     flex-direction: column-reverse;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
 
     .randomize {
