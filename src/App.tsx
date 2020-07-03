@@ -44,7 +44,10 @@ const membraneOptions = {
   }
 }
 
-const synth = new MembraneSynth(membraneOptions).toMaster();
+const voice1 = new MembraneSynth(membraneOptions).toMaster();
+const voice2 = new MembraneSynth(membraneOptions).toMaster();
+const voice3 = new MembraneSynth(membraneOptions).toMaster();
+const voice4 = new MembraneSynth(membraneOptions).toMaster();
 const analyser = new Waveform(512);
 
 const freeverb = new Freeverb().toMaster();
@@ -52,9 +55,18 @@ freeverb.dampening.value = REVERB_DAMPENING;
 freeverb.roomSize.value = 0.9;
 freeverb.wet.value = REVERB_WET;
 
-synth.connect(freeverb);
-synth.chain(analyser);
-synth.volume.value = -10;
+voice1.connect(freeverb);
+voice2.connect(freeverb);
+voice3.connect(freeverb);
+voice4.connect(freeverb);
+voice1.chain(analyser);
+voice2.chain(analyser);
+voice3.chain(analyser);
+voice4.chain(analyser);
+voice1.volume.value = -10;
+voice2.volume.value = -10;
+voice3.volume.value = -10;
+voice4.volume.value = -10;
 
 const tracksPreset = [
   [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
@@ -63,17 +75,25 @@ const tracksPreset = [
   [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0]
 ];
 
-
 const convertSoundParamsToSynthOptions = (param, val) => {
   switch (param.id) {
     case 'attack':
-      synth.envelope.attack = val;
+      voice1.envelope.attack = val;
+      voice2.envelope.attack = val;
+      voice3.envelope.attack = val;
+      voice4.envelope.attack = val;
       break;
     case 'decay':
-      synth.envelope.decay = val;
+      voice1.envelope.decay = val;
+      voice2.envelope.decay = val;
+      voice3.envelope.decay = val;
+      voice4.envelope.decay = val;
       break;
     case 'release':
-      synth.envelope.release = val;
+      voice1.envelope.release = val;
+      voice2.envelope.release = val;
+      voice3.envelope.release = val;
+      voice4.envelope.release = val;
       break;
     case 'reverb_dampening':
       freeverb.dampening.value = val;
@@ -82,10 +102,16 @@ const convertSoundParamsToSynthOptions = (param, val) => {
       freeverb.wet.value = val;
       break;
     case 'pitch_decay':
-      synth.pitchDecay = val;
+      voice1.pitchDecay = val;
+      voice2.pitchDecay = val;
+      voice3.pitchDecay = val;
+      voice4.pitchDecay = val;
       break;
   }
 };
+
+let stepTone = 0;
+let tracksTone= [...tracksPreset];
 
 function App() {
 
@@ -98,15 +124,29 @@ function App() {
     setLoop(new Loop(songSequence, '4n'));
   }, []);
 
+  useEffect(() => {
+    stepTone = (activeStep +1) % 16;
+    tracksTone = [...tracks];
+  }, [activeStep, tracks]);
+
   const songSequence = (time) => {
-    const octave = Math.round(Math.random() * 3 + 1);
-    synth.triggerAttackRelease(`A${octave}`, `4n`, time);
+    if (tracksTone[0][stepTone]) {
+      voice1.triggerAttackRelease(`C3`, `4n`, time);
+    }
+    if (tracksTone[1][stepTone]) {
+      voice2.triggerAttackRelease(`D3`, `4n`, time);
+    }
+    if (tracksTone[2][stepTone]) {
+      voice3.triggerAttackRelease(`E3`, `4n`, time);
+    }
+    if (tracksTone[3][stepTone]) {
+      voice4.triggerAttackRelease(`F4`, `4n`, time);
+    }
     setActiveStep(prev => (prev + 1) % 16);
   }
 
-  //See annotations in JS for more information
   const setup = (p5: p5Types | any, canvasParentRef: Element) => {
-    // console.log('setup:')
+    p5.pixelDensity(1);
     p5.createCanvas(p5.windowWidth -20, p5.windowHeight -20).parent(canvasParentRef);
     p5.stroke(100);
     p5.frameRate(50);

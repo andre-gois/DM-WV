@@ -29,7 +29,7 @@
         .step {
             width: 6%;
             background-color: transparent;
-            border: 1px solid #111;
+            border: 1px solid #252525;
             opacity: .8;
             margin-right: 2px;
             display: flex;
@@ -38,7 +38,7 @@
             align-items: center;
             &.active {
                 background-color: transparent;
-                border: 1px solid #333;
+                border: 1px solid #444;
             }
             .active {
                 background-color: #ddd;

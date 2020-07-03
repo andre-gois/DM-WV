@@ -13,8 +13,6 @@ interface SequencerComponentProps {
 
 const Sequencer = ({ onPress, activeStep, tracks, randomizeSequencer }: SequencerComponentProps) => {
 
-    // const [bas, setBa] = useState(false);
-
     return (
         <div className="sequencer">
             <div className="tracks">
@@ -27,7 +25,7 @@ const Sequencer = ({ onPress, activeStep, tracks, randomizeSequencer }: Sequence
                         ))}
                     </div>
                 ))}
-            </div>
+            </div> {activeStep}
             <div className="randomize">
                 <Dice onPress={() => randomizeSequencer()}/>
                 <div className="line"></div>
