@@ -5,10 +5,12 @@ import './Sequencer.scss';
 import Dice from "../Dice/Dice";
 
 interface SequencerComponentProps {
+    activeStep: number;
+    tracks?: [];
     onPress?: any;
 }
 
-const Sequencer = ({ onPress }: SequencerComponentProps) => {
+const Sequencer = ({ onPress, activeStep, tracks }: SequencerComponentProps) => {
 
     // const [bas, setBa] = useState(false);
 
@@ -16,25 +18,25 @@ const Sequencer = ({ onPress }: SequencerComponentProps) => {
         <div className="sequencer">
             <div className="tracks">
                 <div className="track">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(v=> (
-                        <div key={v} className="step"></div>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((v, i) => (
+                        <div key={v} className={`step ${i === activeStep ? 'active' : ''}`}></div>
                     ))}
                 </div>
                 <div className="track">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(v => (
-                        <div key={v} className="step">
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((v, i) => (
+                        <div key={v} className={`step ${i === activeStep ? 'active' : ''}`}>
                             <div className="active"></div>
                         </div>
                     ))}
                 </div>
                 <div className="track">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(v => (
-                        <div key={v} className="step"></div>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((v, i) => (
+                        <div key={v} className={`step ${i === activeStep ? 'active' : ''}`}></div>
                     ))}
                 </div>
                 <div className="track">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(v => (
-                        <div key={v} className="step"></div>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((v, i) => (
+                        <div key={v} className={`step ${i === activeStep ? 'active' : ''}`}></div>
                     ))}
                 </div>
             </div>

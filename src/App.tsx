@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.scss';
 import Sketch from 'react-p5';
 import p5Types from 'p5';
@@ -56,11 +56,6 @@ synth.connect(freeverb);
 synth.chain(analyser);
 synth.volume.value = -10;
 
-const songSequence = (time) => {
-  const octave = Math.round(Math.random() * 3 + 1);
-  synth.triggerAttackRelease(`A${octave}`, `4n`, time);
-}
-const loop = new Loop(songSequence, '4n');
 
 const convertSoundParamsToSynthOptions = (param, val) => {
   switch (param.id) {
@@ -88,6 +83,18 @@ const convertSoundParamsToSynthOptions = (param, val) => {
 function App() {
 
   const [soundParams, setSoundParams] = useState(soundParamsInit);
+  const [loop, setLoop] = useState();
+  const [activeStep, setActiveStep] = useState(-1);
+
+  useEffect(() => {
+    setLoop(new Loop(songSequence, '4n'));
+  }, []);
+
+  const songSequence = (time) => {
+    const octave = Math.round(Math.random() * 3 + 1);
+    synth.triggerAttackRelease(`A${octave}`, `4n`, time);
+    setActiveStep(prev => (prev + 1) % 16);
+  }
 
   //See annotations in JS for more information
   const setup = (p5: p5Types | any, canvasParentRef: Element) => {
@@ -116,6 +123,7 @@ function App() {
     if (loop.state === 'started') {
       loop.stop();
     } else {
+      setActiveStep(-1);
       loop.start(0);
     }
   }
@@ -145,7 +153,7 @@ function App() {
 
       <div className="interface-container">
         <div className="sequencer-container">
-          <Sequencer />
+          <Sequencer activeStep={activeStep}/>{activeStep}
         </div>
         <div className="center-area">
           <img src="/play_sm.png" onClick={onPress} className="play" alt="play"/>

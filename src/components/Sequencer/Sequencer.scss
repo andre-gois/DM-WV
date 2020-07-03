@@ -35,6 +35,9 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
+            &.active {
+                background-color: #999;
+            }
             .active {
                 background-color: #ddd;
                 width: 40%;
