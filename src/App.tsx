@@ -153,8 +153,6 @@ function App() {
 
   const randomizeSequencer = () => {
     const newState = [...tracks];
-    console.log(newState.map(track => track.map(step => Math.round(Math.random()))));
-    
     setTracks(newState.map(track => track.map(step => Math.round(Math.random()))))
   }
 
@@ -163,6 +161,7 @@ function App() {
     newState[trackIndex][stepIndex] = Math.abs(newState[trackIndex][stepIndex] - 1);
     setTracks(newState);
   }
+
 
   return (
     <div className="App">
