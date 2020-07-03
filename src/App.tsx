@@ -258,7 +258,7 @@ function App() {
         <Sketch setup={setup} draw={draw} />
       </div>
 
-      <footer>DM/WV v1.0</footer>
+      <footer>DM\WV v1.0</footer>
     </div>
   );
 }
