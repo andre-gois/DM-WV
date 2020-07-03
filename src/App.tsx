@@ -56,6 +56,13 @@ synth.connect(freeverb);
 synth.chain(analyser);
 synth.volume.value = -10;
 
+const tracksPreset = [
+  [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+  [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0]
+];
+
 
 const convertSoundParamsToSynthOptions = (param, val) => {
   switch (param.id) {
@@ -84,6 +91,7 @@ function App() {
 
   const [soundParams, setSoundParams] = useState(soundParamsInit);
   const [loop, setLoop] = useState();
+  const [tracks, setTracks] = useState(tracksPreset);
   const [activeStep, setActiveStep] = useState(-1);
 
   useEffect(() => {
@@ -129,7 +137,6 @@ function App() {
   }
 
   const changeSoundParam = (index, val) => {
-    // console.log('changeSoundParam:', index, val)
     setSoundParams(prev => {
       prev[index].value = val;
       convertSoundParamsToSynthOptions(prev[index], val);
@@ -138,12 +145,23 @@ function App() {
   }
 
   const radomizeAllSoundParams = () => {
-    // console.log('radomizeAllSoundParams:');
     soundParams.forEach((param, i) => {
       const val = Math.random() * (param.max - param.min) + param.min;
       changeSoundParam(i, val);
     });
+  }
+
+  const randomizeSequencer = () => {
+    const newState = [...tracks];
+    console.log(newState.map(track => track.map(step => Math.round(Math.random()))));
     
+    setTracks(newState.map(track => track.map(step => Math.round(Math.random()))))
+  }
+
+  const changeStep = (trackIndex, stepIndex) => {
+    const newState = [...tracks];
+    newState[trackIndex][stepIndex] = Math.abs(newState[trackIndex][stepIndex] - 1);
+    setTracks(newState);
   }
 
   return (
@@ -153,7 +171,7 @@ function App() {
 
       <div className="interface-container">
         <div className="sequencer-container">
-          <Sequencer activeStep={activeStep}/>{activeStep}
+          <Sequencer activeStep={activeStep} tracks={tracks} onPress={(trackIndex, stepIndex) => changeStep(trackIndex, stepIndex)} randomizeSequencer={randomizeSequencer}/>
         </div>
         <div className="center-area">
           <img src="/play_sm.png" onClick={onPress} className="play" alt="play"/>
