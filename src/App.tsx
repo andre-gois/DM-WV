@@ -24,8 +24,8 @@ const soundParamsInit = [
   { id: 'decay', min: 0.01, max: 1.0, step: 0.01, name: 'D', value: DECAY },
   { id: 'pitch_decay', min: 0.0, max: 0.1, step: 0.001, name: '\\', value: PITCH_DECAY },
   { id: 'reverb_dampening', min: 60, max: 20000, step: 100, name: 'V', value: REVERB_DAMPENING },
-  { id: 'reverb_wet', min: 0, max: 1, step: 0.1, name: 'W', value: REVERB_WET },
-  { id: 'distortion', min: 0.0, max: 1, step: 0.05, name: 'F', value: DISTORTION },
+  { id: 'reverb_wet', min: 0, max: 1, step: 0.01, name: 'W', value: REVERB_WET },
+  { id: 'distortion', min: 0.0, max: 1.0, step: 0.05, name: 'F', value: DISTORTION },
 ];
 
 const membraneOptions = {
@@ -66,6 +66,9 @@ voice2.connect(distortion);
 voice3.connect(distortion);
 voice4.connect(distortion);
 distortion.connect(reverb);
+
+distortion.wet.value = .7;
+
 reverb.chain(analyser);
 voice1.volume.value = -3;
 voice2.volume.value = -3;
