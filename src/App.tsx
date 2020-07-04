@@ -15,15 +15,15 @@ const DECAY = 0.4;
 const SUSTAIN = 0.01;
 const RELEASE = 1.4;
 const PITCH_DECAY = 0.05;
-const REVERB_DAMPENING = 2000;
-const REVERB_WET = 0.9;
+const REVERB_DAMPENING = 5000;
+const REVERB_WET = 0.05;
 const DISTORTION = 0.4;
 
 const soundParamsInit = [
   { id: 'attack', min: 0.001, max: 0.07, step: 0.001, name: 'A', value: ATTACK },
   { id: 'decay', min: 0.01, max: 1.0, step: 0.01, name: 'D', value: DECAY },
   { id: 'pitch_decay', min: 0.0, max: 0.1, step: 0.001, name: '\\', value: PITCH_DECAY },
-  { id: 'reverb_dampening', min: 60, max: 20000, step: 100, name: 'V', value: REVERB_DAMPENING },
+  { id: 'reverb_dampening', min: 60, max: 10000, step: 10, name: 'V', value: REVERB_DAMPENING },
   { id: 'reverb_wet', min: 0, max: 1, step: 0.01, name: 'W', value: REVERB_WET },
   { id: 'distortion', min: 0.0, max: 1.0, step: 0.05, name: 'F', value: DISTORTION },
 ];
@@ -56,24 +56,23 @@ Transport.bpm.value = TEMPO;
 
 const distortion = new Distortion(DISTORTION)
 
-const reverb = new Freeverb()
+const reverb = new Freeverb(0.3)
 reverb.dampening.value = REVERB_DAMPENING;
-reverb.roomSize.value = 0.3;
 reverb.wet.value = REVERB_WET;
 
 voice1.connect(distortion);
 voice2.connect(distortion);
 voice3.connect(distortion);
 voice4.connect(distortion);
-distortion.connect(reverb);
-
-distortion.wet.value = .7;
-
-reverb.chain(analyser);
 voice1.volume.value = -3;
 voice2.volume.value = -3;
 voice3.volume.value = -3;
 voice4.volume.value = -3;
+
+distortion.connect(reverb);
+distortion.wet.value = .7;
+
+reverb.chain(analyser);
 
 analyser.chain(limiter);
 
@@ -211,6 +210,11 @@ function App() {
     });
   }
 
+  const clearSequencer = () => {
+    const newState = [...tracks];
+    setTracks(newState.map(track => track.map(step => 0)));
+  }
+
   const randomizeSequencer = () => {
     const newState = [...tracks];
     setTracks(newState.map(track => track.map(step => randomWithProbability())))
@@ -237,7 +241,7 @@ function App() {
   return (
     <div className="App">
 
-      <img src="/logo512.png" className="logo" alt="wv"/>
+      <img src="/logo512.png" className="logo" alt="wv" onClick={clearSequencer}/>
 
       <div className="interface-container">
         <div className="sequencer-container">
@@ -264,7 +268,7 @@ function App() {
         <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
       </div>
 
-      <footer>DM\WV v1.03</footer>
+      <footer>DM\WV v1.04</footer>
     </div>
   );
 }
