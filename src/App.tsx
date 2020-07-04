@@ -50,7 +50,7 @@ const voice1 = new MembraneSynth(membraneOptions);
 const voice2 = new MembraneSynth(membraneOptions);
 const voice3 = new MembraneSynth(membraneOptions);
 const voice4 = new MembraneSynth(membraneOptions);
-const analyser = new Waveform(512);
+const analyser = new Waveform(128);
 
 Transport.bpm.value = TEMPO;
 
@@ -160,7 +160,7 @@ function App() {
     p5.pixelDensity(1);
     p5.createCanvas(p5.windowWidth -20, p5.windowHeight -20).parent(canvasParentRef);
     p5.stroke(100);
-    p5.frameRate(50);
+    p5.frameRate(30);
   };
 
   const draw = (p5: p5Types | any) => {
