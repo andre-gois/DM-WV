@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.scss';
 import Sketch from 'react-p5';
 import p5Types from 'p5';
-import { Waveform, MembraneSynth, Freeverb, Loop, Transport, Distortion } from "tone";
+import { Waveform, MembraneSynth, Freeverb, Loop, Transport, Distortion, Limiter } from "tone";
 import Slider from './components/Slider/Slider';
 import Dice from './components/Dice/Dice';
 import Sequencer from './components/Sequencer/Sequencer';
@@ -15,7 +15,7 @@ const DECAY = 0.4;
 const SUSTAIN = 0.01;
 const RELEASE = 1.4;
 const PITCH_DECAY = 0.05;
-const REVERB_DAMPENING = 40;
+const REVERB_DAMPENING = 2000;
 const REVERB_WET = 0.9;
 const DISTORTION = 0.4;
 
@@ -23,7 +23,7 @@ const soundParamsInit = [
   { id: 'attack', min: 0.001, max: 0.07, step: 0.001, name: 'A', value: ATTACK },
   { id: 'decay', min: 0.01, max: 1.0, step: 0.01, name: 'D', value: DECAY },
   { id: 'pitch_decay', min: 0.0, max: 0.1, step: 0.001, name: '\\', value: PITCH_DECAY },
-  { id: 'reverb_dampening', min: 20, max: 150, step: 10, name: 'V', value: REVERB_DAMPENING },
+  { id: 'reverb_dampening', min: 60, max: 20000, step: 100, name: 'V', value: REVERB_DAMPENING },
   { id: 'reverb_wet', min: 0, max: 1, step: 0.1, name: 'W', value: REVERB_WET },
   { id: 'distortion', min: 0.0, max: 1, step: 0.05, name: 'F', value: DISTORTION },
 ];
@@ -44,37 +44,35 @@ const membraneOptions = {
   }
 }
 
-const voice1 = new MembraneSynth(membraneOptions).toMaster();
-const voice2 = new MembraneSynth(membraneOptions).toMaster();
-const voice3 = new MembraneSynth(membraneOptions).toMaster();
-const voice4 = new MembraneSynth(membraneOptions).toMaster();
-const analyser = new Waveform(128);
+const limiter = new Limiter(-1).toMaster();
+
+const voice1 = new MembraneSynth(membraneOptions);
+const voice2 = new MembraneSynth(membraneOptions);
+const voice3 = new MembraneSynth(membraneOptions);
+const voice4 = new MembraneSynth(membraneOptions);
+const analyser = new Waveform(512);
 
 Transport.bpm.value = TEMPO;
 
-const distortion = new Distortion(DISTORTION).toMaster();
+const distortion = new Distortion(DISTORTION)
 
-const freeverb = new Freeverb().toMaster();
-freeverb.dampening.value = REVERB_DAMPENING;
-freeverb.roomSize.value = 0.9;
-freeverb.wet.value = REVERB_WET;
+const reverb = new Freeverb()
+reverb.dampening.value = REVERB_DAMPENING;
+reverb.roomSize.value = 0.3;
+reverb.wet.value = REVERB_WET;
 
 voice1.connect(distortion);
 voice2.connect(distortion);
 voice3.connect(distortion);
 voice4.connect(distortion);
-voice1.connect(freeverb);
-voice2.connect(freeverb);
-voice3.connect(freeverb);
-voice4.connect(freeverb);
-voice1.chain(analyser);
-voice2.chain(analyser);
-voice3.chain(analyser);
-voice4.chain(analyser);
-voice1.volume.value = -10;
-voice2.volume.value = -10;
-voice3.volume.value = -10;
-voice4.volume.value = -10;
+distortion.connect(reverb);
+reverb.chain(analyser);
+voice1.volume.value = -3;
+voice2.volume.value = -3;
+voice3.volume.value = -3;
+voice4.volume.value = -3;
+
+analyser.chain(limiter);
 
 const tracksPreset = [
   [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
@@ -82,7 +80,6 @@ const tracksPreset = [
   [0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
   [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
 ];
-
 
 const convertSoundParamsToSynthOptions = (param, val) => {
   switch (param.id) {
@@ -102,10 +99,10 @@ const convertSoundParamsToSynthOptions = (param, val) => {
       distortion.distortion = val;
       break;
     case 'reverb_dampening':
-      freeverb.dampening.value = val;
+      reverb.dampening.value = val;
       break;
     case 'reverb_wet':
-      freeverb.wet.value = val;
+      reverb.wet.value = val;
       break;
     case 'pitch_decay':
       voice1.pitchDecay = val;
@@ -264,7 +261,7 @@ function App() {
         <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
       </div>
 
-      <footer>DM\WV v1.02</footer>
+      <footer>DM\WV v1.03</footer>
     </div>
   );
 }
