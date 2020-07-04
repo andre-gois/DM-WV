@@ -22,7 +22,7 @@ const DISTORTION = 0.4;
 const soundParamsInit = [
   { id: 'attack', min: 0.001, max: 0.07, step: 0.001, name: 'A', value: ATTACK },
   { id: 'decay', min: 0.01, max: 1.0, step: 0.01, name: 'D', value: DECAY },
-  { id: 'pitch_decay', min: 0.0, max: 0.5, step: 0.01, name: '\\', value: PITCH_DECAY },
+  { id: 'pitch_decay', min: 0.0, max: 0.1, step: 0.001, name: '\\', value: PITCH_DECAY },
   { id: 'reverb_dampening', min: 20, max: 150, step: 10, name: 'V', value: REVERB_DAMPENING },
   { id: 'reverb_wet', min: 0, max: 1, step: 0.1, name: 'W', value: REVERB_WET },
   { id: 'distortion', min: 0.0, max: 1, step: 0.05, name: 'X', value: DISTORTION },
@@ -258,7 +258,7 @@ function App() {
         <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
       </div>
 
-      <footer>DM\WV v1.0</footer>
+      <footer>DM\WV v1.01</footer>
     </div>
   );
 }
