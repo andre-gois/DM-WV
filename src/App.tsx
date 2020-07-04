@@ -255,7 +255,7 @@ function App() {
       </div>
 
       <div className="sketch-container">
-        <Sketch setup={setup} draw={draw} />
+        <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
       </div>
 
       <footer>DM\WV v1.0</footer>
