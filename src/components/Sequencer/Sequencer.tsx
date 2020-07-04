@@ -10,11 +10,12 @@ interface SequencerComponentProps {
     tracks: [[number]];
     onPress: any;
     randomizeSequencer: any;
+    randomizeSequencerTrack: any;
     tempo: number;
     changeTempo: any;
 }
 
-const Sequencer = ({ onPress, activeStep, tracks, randomizeSequencer, tempo, changeTempo }: SequencerComponentProps) => {
+const Sequencer = ({ onPress, activeStep, tracks, randomizeSequencer, randomizeSequencerTrack, tempo, changeTempo }: SequencerComponentProps) => {
 
     return (
         <div className="seq-tempo">
@@ -22,11 +23,17 @@ const Sequencer = ({ onPress, activeStep, tracks, randomizeSequencer, tempo, cha
                 <div className="tracks">
                     {tracks.map((track, trackIndex) => (
                         <div key={trackIndex} className="track">
+
+                            <div className="step track-random">
+                                <a href={void(0)} onClick={() => randomizeSequencerTrack(trackIndex)}>X</a>
+                            </div>
+
                             {track.map((step, stepIndex) => (
                                 <div key={stepIndex} className={`step clickable ${stepIndex === activeStep ? 'active' : ''}`} onClick={() => onPress(trackIndex, stepIndex)}>
                                     {step === 1 ? <div className="active"/> : null}
                                 </div>
                             ))}
+                            
                         </div>
                     ))}
                 </div>

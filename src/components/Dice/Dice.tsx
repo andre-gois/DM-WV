@@ -4,6 +4,7 @@ import './Dice.scss';
 
 interface DiceComponentProps {
     onPress?: any;
+    small?: boolean;
 }
 
 const rollDice = (currentNum?) => {
@@ -15,7 +16,7 @@ const rollDice = (currentNum?) => {
     }
 }
 
-const Dice = ({ onPress }: DiceComponentProps) => {
+const Dice = ({ onPress, small = false }: DiceComponentProps) => {
 
     const [currentNum, setCurrentNum] = useState(rollDice());
 
@@ -26,7 +27,7 @@ const Dice = ({ onPress }: DiceComponentProps) => {
     }
 
     return (
-        <div className="scene" onClick={changeFace}>
+        <div className={`scene ${small ? 'small': ''}`} onClick={changeFace}>
             <div className={`cube show-${currentNum}`}>
                 {[1,2,3,4,5,6].map(v => (
                     <div key={v} className={`cube__face cube__face--${v}`}>

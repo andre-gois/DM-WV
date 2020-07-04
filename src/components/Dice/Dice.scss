@@ -6,6 +6,9 @@
     color: #888;
     font-weight: 600;
     cursor: pointer;
+    &.small {
+        width: 100%;
+    }
 }
 
 .cube {

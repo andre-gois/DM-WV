@@ -25,7 +25,7 @@ const soundParamsInit = [
   { id: 'pitch_decay', min: 0.0, max: 0.1, step: 0.001, name: '\\', value: PITCH_DECAY },
   { id: 'reverb_dampening', min: 20, max: 150, step: 10, name: 'V', value: REVERB_DAMPENING },
   { id: 'reverb_wet', min: 0, max: 1, step: 0.1, name: 'W', value: REVERB_WET },
-  { id: 'distortion', min: 0.0, max: 1, step: 0.05, name: 'X', value: DISTORTION },
+  { id: 'distortion', min: 0.0, max: 1, step: 0.05, name: 'F', value: DISTORTION },
 ];
 
 const membraneOptions = {
@@ -48,7 +48,7 @@ const voice1 = new MembraneSynth(membraneOptions).toMaster();
 const voice2 = new MembraneSynth(membraneOptions).toMaster();
 const voice3 = new MembraneSynth(membraneOptions).toMaster();
 const voice4 = new MembraneSynth(membraneOptions).toMaster();
-const analyser = new Waveform(512);
+const analyser = new Waveform(128);
 
 Transport.bpm.value = TEMPO;
 
@@ -216,6 +216,12 @@ function App() {
     setTracks(newState.map(track => track.map(step => randomWithProbability())))
   }
 
+  const randomizeSequencerTrack = (trackIndex) => {
+    let newState = [...tracks];
+    newState[trackIndex] = newState[trackIndex].map(step => randomWithProbability())
+    setTracks(newState);
+  }
+
   const changeStep = (trackIndex, stepIndex) => {
     const newState = [...tracks];
     newState[trackIndex][stepIndex] = Math.abs(newState[trackIndex][stepIndex] - 1);
@@ -235,7 +241,7 @@ function App() {
 
       <div className="interface-container">
         <div className="sequencer-container">
-          <Sequencer changeTempo={val => changeTempo(val)} tempo={tempo} activeStep={activeStep} tracks={tracks} onPress={(trackIndex, stepIndex) => changeStep(trackIndex, stepIndex)} randomizeSequencer={randomizeSequencer}/>
+          <Sequencer changeTempo={val => changeTempo(val)} tempo={tempo} activeStep={activeStep} tracks={tracks} onPress={(trackIndex, stepIndex) => changeStep(trackIndex, stepIndex)} randomizeSequencer={randomizeSequencer} randomizeSequencerTrack={randomizeSequencerTrack}/>
         </div>
         <div className="center-area">
           <img src={playing ? '/stop_sm.png' : '/play_sm.png'} onClick={onPress} className="play" alt="play"/>
@@ -258,7 +264,7 @@ function App() {
         <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
       </div>
 
-      <footer>DM\WV v1.01</footer>
+      <footer>DM\WV v1.02</footer>
     </div>
   );
 }
