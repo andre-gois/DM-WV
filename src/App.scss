@@ -1,0 +1,110 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.App {
+  text-align: center;
+  height: 100%;
+}
+
+.sketch-container {
+  position: fixed;
+  background-color: #000;
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  margin: 0;
+  left: 0;
+  top: 0;
+  padding: 10px;
+}
+
+.interface-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.logo {
+  z-index: 3;
+  opacity: .5;
+  width: 40px;
+  left: 20px;
+  top: 5px;
+  position: fixed;
+}
+
+footer {
+  z-index: 3;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: lightgray;
+  font-size: 10px;
+  opacity: .5;
+}
+
+.play {
+  background-color: #000;
+  width: 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.sequencer-container, .controls {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .params {
+    display: flex;
+    flex-direction: row;
+    // border-bottom: 1px solid #666;
+    padding-bottom: 10px;
+    padding-top: 50px;
+    .slider{
+      padding: 10px;
+    }
+  }
+
+
+  
+  .bottom-global-action {
+    border-top: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    width: 215px;
+    // padding-top: 20px;
+    margin-top: 10px;
+    .line {
+      background-color: #444;
+      width: 1px;
+      height: 20px;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+
+.scene {
+    width: 25px;
+    height: 25px;
+    perspective: 60px;
+    color: #888;
+    font-weight: 600;
+    cursor: pointer;
+    &.small {
+        width: 100%;
+    }
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.cube__face {
+    position: absolute;
+    background-color: rgb(10, 10, 10);
+    border: 1px solid #444;
+    width: 25px;
+    height: 25px;
+    background-position: center;
+    background-size: cover;
+    opacity: .9;
+}
+
+.cube__face--1  { transform: rotateY(  0deg) translateZ(12px); background-image: url('/images/dice-1.png'); }
+.cube__face--2  { transform: rotateY( 90deg) translateZ(12px); background-image: url('/images/dice-2.png');}
+.cube__face--3   { transform: rotateY(180deg) translateZ(12px); background-image: url('/images/dice-3.png');}
+.cube__face--4   { transform: rotateY(-90deg) translateZ(12px); background-image: url('/images/dice-4.png');}
+.cube__face--5    { transform: rotateX( 90deg) translateZ(12px); background-image: url('/images/dice-5.png');}
+.cube__face--6 { transform: rotateX(-90deg) translateZ(12px); background-image: url('/images/dice-6.png');}
+
+.cube { transform: translateZ(-10px); }
+
+.cube.show-1  { transform: translateZ(-10px) rotateY(   0deg); }
+.cube.show-2  { transform: translateZ(-10px) rotateY( -90deg); }
+.cube.show-3   { transform: translateZ(-10px) rotateY(-180deg); }
+.cube.show-4   { transform: translateZ(-10px) rotateY(  90deg); }
+.cube.show-5    { transform: translateZ(-10px) rotateX( -90deg); }
+.cube.show-6 { transform: translateZ(-10px) rotateX(  90deg); }
+
+.cube { transition: transform 1s; }
+
